@@ -1,7 +1,6 @@
 FROM node:18
-ARG PORT_ARG
 ENV SECRET_WORD="MySecret"
-ENV PORT=$PORT_ARG
+ENV PORT=443
 
 WORKDIR /app
 COPY package*.json ./

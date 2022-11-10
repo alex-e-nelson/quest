@@ -6,12 +6,19 @@ on:
 
 env:
   PORT_ARG: 80
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
 
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
     
     steps:
     - uses: actions/checkout@v3
@@ -24,3 +31,5 @@ jobs:
       run: docker build --file Dockerfile --tag alexenelson/quest:latest --build-arg PORT_ARG=$PORT_ARG .
     - name: Docker push
       run: docker push alexenelson/quest:latest
+    - name: CDK Deploy
+      run: cd quest-deploy && npm i && npm run cdk deploy

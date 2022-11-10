@@ -9,6 +9,11 @@ export class QuestDeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const tag = this.node.tryGetContext('TAG');
+    if (!tag) {
+      throw new Error('Missing tag');
+    }
+
     const vpc = new ec2.Vpc(this, 'Vpc');
     const cluster = new ecs.Cluster(this, 'Cluster', {
       vpc: vpc,
@@ -18,13 +23,15 @@ export class QuestDeployStack extends cdk.Stack {
       }
     });
 
+    const image = ecs.ContainerImage.fromRegistry(`index.docker.io/alexenelson/quest:${tag}`);
+
     const service = new ecsPatterns.ApplicationLoadBalancedEc2Service(this, 'Service', {
       cluster: cluster,
       memoryLimitMiB: 512,
       cpu: 256,
       desiredCount: 1,
       taskImageOptions: {
-        image: ecs.ContainerImage.fromRegistry('index.docker.io/alexenelson/quest:latest'),
+        image: image,
       },
       certificate: acm.Certificate.fromCertificateArn(this, 'Certificate',
         'arn:aws:acm:us-east-1:987334205533:certificate/a2f09ebd-9f0e-4f32-ab47-b81304f56226'),

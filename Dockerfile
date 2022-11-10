@@ -1,6 +1,6 @@
 FROM node:18
 ENV SECRET_WORD="MySecret"
-ENV PORT=443
+ENV PORT=80
 
 WORKDIR /app
 COPY package*.json ./

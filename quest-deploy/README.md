@@ -14,9 +14,10 @@ npx cdk bootstrap aws://{ACCOUNT}/{REGION}
 ```
 
 2. Run the deployment. The docker image tag is a required context parameter. You must provide a tag for a valid docker image
-in dockerhub repository https://hub.docker.com/r/alexenelson/quest/tags.
+in dockerhub repository https://hub.docker.com/r/alexenelson/quest/tags. You can optionally provide a value for the `SECRET_WORD`
+environment variable.
 ```
-npx cdk deploy -c TAG={TAG}
+npx cdk deploy -c TAG={TAG} -c SECRET_WORD={SECRET_WORD}
 ```
 
 ## CICD

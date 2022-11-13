@@ -9,7 +9,7 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: us-east-1
   TAG: ${{ github.run_number }}
-  MY_GITHUB_SECRET: ${{ github.MY_GITHUB_SECRET }}
+  MY_GITHUB_SECRET: ${{ secrets.MY_GITHUB_SECRET }}
 
 jobs:
 
@@ -32,4 +32,4 @@ jobs:
     - name: Docker push
       run: docker push alexenelson/quest:$TAG
     - name: CDK Deploy
-      run: cd quest-deploy && npm i && npx cdk deploy --require-approval never -c TAG=$TAG -c SECRET_WORD=$MY_GITHUB_SECRET
+      run: cd quest-deploy && npm i && npx cdk deploy --require-approval never -c TAG="$TAG" -c SECRET_WORD="$MY_GITHUB_SECRET"

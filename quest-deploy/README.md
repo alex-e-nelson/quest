@@ -1,4 +1,4 @@
-# Welcome to your CDK TypeScript project
+# Deployment
 
 This is a CDK project written in typescript that contains one stack `QuestDeployStack`
 
@@ -20,7 +20,7 @@ npx cdk deploy -c TAG={TAG}
 ```
 
 ## CICD
-A simple CICD workflow is provided by a github action found at `{REPOSITORY_ROOT}/.github/docker-image.yml`.
+A simple CICD workflow is provided by a github action found at `{REPOSITORY_ROOT}/.github/workflows/docker-image.yml`.
 This workflow performs the following steps.
 
 1. Docker build

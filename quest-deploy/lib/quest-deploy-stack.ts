@@ -20,7 +20,7 @@ export class QuestDeployStack extends cdk.Stack {
       vpc: vpc,
       capacity: {
         instanceType: new ec2.InstanceType('t2.micro'),
-        desiredCapacity: 1,
+        desiredCapacity: 2,
       }
     });
 

@@ -15,6 +15,8 @@ export class QuestDeployStack extends cdk.Stack {
       throw new Error('Missing tag');
     }
 
+    const secretWord = this.node.tryGetContext('SECRET_WORD') || 'DefaultSecret';
+
     const vpc = new ec2.Vpc(this, 'Vpc');
     const cluster = new ecs.Cluster(this, 'Cluster', {
       vpc: vpc,
@@ -33,6 +35,9 @@ export class QuestDeployStack extends cdk.Stack {
       desiredCount: 1,
       taskImageOptions: {
         image: image,
+        environment: {
+          SECRET_WORD: secretWord,
+        },
       },
       certificate: acm.Certificate.fromCertificateArn(this, 'Certificate',
         'arn:aws:acm:us-east-1:987334205533:certificate/a2f09ebd-9f0e-4f32-ab47-b81304f56226'),

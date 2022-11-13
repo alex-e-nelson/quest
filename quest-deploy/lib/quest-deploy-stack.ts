@@ -4,6 +4,7 @@ import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as ecsPatterns from 'aws-cdk-lib/aws-ecs-patterns';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
+import { Duration } from 'aws-cdk-lib';
 
 export class QuestDeployStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -35,6 +36,11 @@ export class QuestDeployStack extends cdk.Stack {
       },
       certificate: acm.Certificate.fromCertificateArn(this, 'Certificate',
         'arn:aws:acm:us-east-1:987334205533:certificate/a2f09ebd-9f0e-4f32-ab47-b81304f56226'),
+    });
+
+    service.targetGroup.configureHealthCheck({
+      timeout: Duration.seconds(30),
+      interval: Duration.seconds(60),
     });
   }
 }
